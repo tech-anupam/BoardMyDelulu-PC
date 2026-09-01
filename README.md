@@ -29,8 +29,8 @@ Download the latest version from the [v1.0.0 Release](https://github.com/tech-an
 
 | Package Type | Download Link | Description |
 | :--- | :--- | :--- |
-| **Windows Installer** | [BoardMyDelulu-1.0.0.msi](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0.msi) | Standard installer with desktop shortcut, start menu entry, and custom install path chooser |
-| **Portable Version** | [BoardMyDelulu-1.0.0-Portable.zip](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0-Portable.zip) | Standalone portable executable. Extract and run `BoardMyDelulu.exe` directly without installing |
+| **Windows Installer** | [BoardMyDelulu-1.0.0.msi](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/tag/v1.0.0) | Standard installer with desktop shortcut, start menu entry, and custom install path chooser |
+| **Portable Version** | [BoardMyDelulu-1.0.0-Portable.zip](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/tag/v1.0.0) | Standalone portable executable. Extract and run `BoardMyDelulu.exe` directly without installing |
 
 ---
 
