@@ -10,6 +10,16 @@
   </p>
 </div>
 
+<p align="center">
+  <img src="preview/1_sounds.jpg" width="48%" alt="Sounds Feed" />
+  <img src="preview/2_search.jpg" width="48%" alt="Search & Categories" />
+</p>
+<p align="center">
+  <img src="preview/3_favorites.jpg" width="31%" alt="Favorites & Hotkeys" />
+  <img src="preview/4_downloads.jpg" width="31%" alt="Downloads Manager" />
+  <img src="preview/5_settings.jpg" width="31%" alt="Settings & Audio Routing" />
+</p>
+
 ---
 
 ## Downloads
