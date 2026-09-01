@@ -3,13 +3,23 @@
   <h1>BoardMyDelulu PC</h1>
   <p><b>The only meme soundboard software you need on desktop. Instant viral Indian and global meme audio pads with zero bullshit and zero ads.</b></p>
   <p>
-    <a href="https://github.com/tech-anupam/BoardMyDelulu-PC/releases"><img src="https://img.shields.io/badge/Release-v1.0.0-6C5CE7?style=for-the-badge" alt="Release"/></a>
-    <a href="https://github.com/tech-anupam/BoardMyDelulu"><img src="https://img.shields.io/badge/Android_App-Available-00CEC9?style=for-the-badge" alt="Android App"/></a>
-    <img src="https://img.shields.io/badge/Platform-Windows-FFA502?style=for-the-badge" alt="Platform"/>
-    <img src="https://img.shields.io/badge/Framework-Compose_Multiplatform-E84393?style=for-the-badge" alt="Compose Desktop"/>
+    <a href="https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0.msi"><img src="https://img.shields.io/badge/Download_Installer-.MSI-6C5CE7?style=for-the-badge&logo=windows" alt="Download MSI"/></a>
+    <a href="https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0-Portable.zip"><img src="https://img.shields.io/badge/Download_Portable-.ZIP-FFA502?style=for-the-badge" alt="Download Portable ZIP"/></a>
+    <a href="https://github.com/tech-anupam/BoardMyDelulu"><img src="https://img.shields.io/badge/Android_App-Available-00CEC9?style=for-the-badge&logo=android" alt="Android App"/></a>
     <img src="https://img.shields.io/badge/License-MIT-2ECC71?style=for-the-badge" alt="License"/>
   </p>
 </div>
+
+---
+
+## Downloads
+
+Download the latest version from the [v1.0.0 Release](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/tag/v1.0.0):
+
+| Package Type | Download Link | Description |
+| :--- | :--- | :--- |
+| **Windows Installer** | [BoardMyDelulu-1.0.0.msi](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0.msi) | Standard installer with desktop shortcut, start menu entry, and custom install path chooser |
+| **Portable Version** | [BoardMyDelulu-1.0.0-Portable.zip](https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0-Portable.zip) | Standalone portable executable. Extract and run `BoardMyDelulu.exe` directly without installing |
 
 ---
 
@@ -30,11 +40,11 @@ Most desktop soundboard applications are bloated, riddled with trial limitations
 
 ---
 
-## Getting Started
+## Building from Source
 
 ### Prerequisites
 - Windows 10 or Windows 11 (64-bit)
-- JDK 17 or newer (only needed for building from source)
+- JDK 17 or newer
 
 ### Run in Development
 ```bash
