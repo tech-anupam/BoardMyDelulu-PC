@@ -6,6 +6,7 @@
     <a href="https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0.msi"><img src="https://img.shields.io/badge/Download_Installer-.MSI-6C5CE7?style=for-the-badge&logo=windows" alt="Download MSI"/></a>
     <a href="https://github.com/tech-anupam/BoardMyDelulu-PC/releases/download/v1.0.0/BoardMyDelulu-1.0.0-Portable.zip"><img src="https://img.shields.io/badge/Download_Portable-.ZIP-FFA502?style=for-the-badge" alt="Download Portable ZIP"/></a>
     <a href="https://github.com/tech-anupam/BoardMyDelulu"><img src="https://img.shields.io/badge/Android_App-Available-00CEC9?style=for-the-badge&logo=android" alt="Android App"/></a>
+    <a href="https://anupambuilds.store/donate"><img src="https://img.shields.io/badge/Donate-Support%20Creator-FF6B9D?style=for-the-badge" alt="Donate"/></a>
     <img src="https://img.shields.io/badge/License-MIT-2ECC71?style=for-the-badge" alt="License"/>
   </p>
 </div>
@@ -103,6 +104,7 @@ Check out the official Android app repository: [BoardMyDelulu for Android](https
 
 If BoardMyDelulu saved your Discord calls or made your gaming lobbies hilarious, consider supporting development:
 
+- **Donate Online**: [anupambuilds.store/donate](https://anupambuilds.store/donate)
 - **UPI ID**: `anupambuilds@fam`
 - **Developer**: Anupam Jha
 - **Portfolio**: [anupambuilds.store/about](https://anupambuilds.store/about)
