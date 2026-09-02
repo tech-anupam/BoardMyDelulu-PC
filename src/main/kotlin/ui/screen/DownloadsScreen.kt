@@ -34,9 +34,7 @@ fun DownloadsScreen(viewModel: AppViewModel) {
             Text("Downloads", style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.primary)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 OutlinedButton(
-                    onClick = {
-                        try { Desktop.getDesktop().open(DownloadRepository.downloadDir) } catch (_: Exception) { }
-                    },
+                    onClick = { DownloadRepository.openFolder() },
                     shape = RoundedCornerShape(20.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                 ) {
@@ -57,7 +55,17 @@ fun DownloadsScreen(viewModel: AppViewModel) {
                     Icon(Icons.Filled.Download, null, modifier = Modifier.size(48.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f))
                     Spacer(Modifier.height(12.dp))
                     Text("No downloaded sounds", style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(4.dp))
                     Text("Right-click any sound pad to save it for offline and set keybinds", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(Modifier.height(16.dp))
+                    OutlinedButton(
+                        onClick = { DownloadRepository.openFolder() },
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Icon(Icons.Filled.FolderOpen, null, modifier = Modifier.size(16.dp))
+                        Spacer(Modifier.width(6.dp))
+                        Text("Open Downloads Folder")
+                    }
                 }
             }
         } else {
@@ -111,6 +119,21 @@ fun DownloadsScreen(viewModel: AppViewModel) {
                                 }
                             }
 
+                            // Show in File Explorer Button
+                            IconButton(
+                                onClick = { DownloadRepository.showInExplorer(localFile) },
+                                modifier = Modifier.size(36.dp)
+                            ) {
+                                Icon(
+                                    Icons.Filled.FolderOpen,
+                                    contentDescription = "Show in Explorer",
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            Spacer(Modifier.width(4.dp))
+
                             // Keybind Button
                             OutlinedButton(
                                 onClick = { viewModel.startRecordingSoundKey(sound) },
@@ -122,7 +145,7 @@ fun DownloadsScreen(viewModel: AppViewModel) {
                                 Text(if (boundKey != null) boundKey else "Set Key", style = MaterialTheme.typography.labelSmall)
                             }
 
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(6.dp))
 
                             IconButton(onClick = { viewModel.deleteDownload(sound.id) }, modifier = Modifier.size(36.dp)) {
                                 Icon(Icons.Filled.Delete, "Delete", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(20.dp))

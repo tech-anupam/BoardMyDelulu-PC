@@ -8,10 +8,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
-import java.util.concurrent.ConcurrentHashMap
+import java.util.Collections
 
 object SoundRepository {
-    private val memoryCache = ConcurrentHashMap<String, CacheEntry>()
     private val json = Json { ignoreUnknownKeys = true }
     private val cacheDir by lazy {
         val dir = File(System.getProperty("user.home"), ".boardmydelulu/cache")
@@ -19,11 +18,20 @@ object SoundRepository {
         dir
     }
 
-    private const val CACHE_TTL_MS = 10 * 60 * 1000L // 10 minutes cache
+    private const val CACHE_TTL_MS = 10 * 60 * 1000L // 10 minutes TTL
+    private const val MAX_CACHE_SIZE = 20             // LRU cap — prevents unbounded growth
 
     private data class CacheEntry(
         val sounds: List<Sound>,
         val timestamp: Long = System.currentTimeMillis()
+    )
+
+    // Thread-safe LRU cache: evicts least-recently-used entry when size > MAX_CACHE_SIZE
+    private val memoryCache: MutableMap<String, CacheEntry> = Collections.synchronizedMap(
+        object : LinkedHashMap<String, CacheEntry>(32, 0.75f, true) {
+            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, CacheEntry>?) =
+                size > MAX_CACHE_SIZE
+        }
     )
 
     private fun getFromCache(key: String): List<Sound>? {

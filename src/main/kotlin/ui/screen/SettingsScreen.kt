@@ -127,7 +127,7 @@ fun SettingsScreen(viewModel: AppViewModel) {
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = { if (state.volume > 0f) viewModel.setVolume(0f) else viewModel.setVolume(1f) }) {
+                    IconButton(onClick = { if (state.volume > 0f) viewModel.setVolume(0f, playFeedback = false) else viewModel.setVolume(1f, playFeedback = true) }) {
                         Icon(
                             if (state.volume > 0f) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeMute,
                             contentDescription = "Volume",

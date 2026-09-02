@@ -80,4 +80,29 @@ object DownloadRepository {
         val file = File(downloadDir, "$sanitized.mp3")
         return if (file.exists()) file else null
     }
+
+    fun openFolder() {
+        try {
+            if (java.awt.Desktop.isDesktopSupported() && java.awt.Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)) {
+                java.awt.Desktop.getDesktop().open(downloadDir)
+            }
+        } catch (_: Exception) { }
+    }
+
+    fun showInExplorer(file: File?) {
+        try {
+            if (file != null && file.exists()) {
+                val os = System.getProperty("os.name", "").lowercase()
+                if (os.contains("win")) {
+                    ProcessBuilder("explorer.exe", "/select,", file.absolutePath).start()
+                } else if (java.awt.Desktop.isDesktopSupported() && java.awt.Desktop.getDesktop().isSupported(java.awt.Desktop.Action.OPEN)) {
+                    java.awt.Desktop.getDesktop().open(file.parentFile ?: downloadDir)
+                }
+            } else {
+                openFolder()
+            }
+        } catch (_: Exception) {
+            openFolder()
+        }
+    }
 }

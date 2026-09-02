@@ -1,0 +1,89 @@
+﻿name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version tag (e.g. v1.0.0)'
+        required: false
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Release Windows Packages
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: |
+          git update-index --chmod=+x gradlew 2>$null || true
+        shell: bash
+
+      - name: Build MSI, EXE, and Distributable App
+        run: |
+          ./gradlew packageMsi packageExe createDistributable --no-daemon
+
+      - name: Package Portable ZIP
+        shell: pwsh
+        run: |
+          # Find distributable app folder
+          $appDir = Get-ChildItem -Path "build\compose\binaries\main\app" -Directory | Select-Object -First 1
+          if ($appDir) {
+              $portableZip = "build\BoardMyDelulu-Portable.zip"
+              Write-Host "Compressing $($appDir.FullName) to $portableZip"
+              Compress-Archive -Path "$($appDir.FullName)\*" -DestinationPath $portableZip -Force
+          } else {
+              Write-Warning "Could not find app directory in build/compose/binaries/main/app"
+          }
+
+      - name: Collect Release Artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "build\release-artifacts" | Out-Null
+
+          # Copy MSI
+          Get-ChildItem -Path "build\compose\binaries\main\msi\*.msi" -Recurse | ForEach-Object {
+              Copy-Item $_.FullName -Destination "build\release-artifacts\" -Force
+              Write-Host "Found MSI: $($_.Name)"
+          }
+
+          # Copy EXE
+          Get-ChildItem -Path "build\compose\binaries\main\exe\*.exe" -Recurse | ForEach-Object {
+              Copy-Item $_.FullName -Destination "build\release-artifacts\" -Force
+              Write-Host "Found EXE: $($_.Name)"
+          }
+
+          # Copy Portable ZIP
+          if (Test-Path "build\BoardMyDelulu-Portable.zip") {
+              Copy-Item "build\BoardMyDelulu-Portable.zip" -Destination "build\release-artifacts\" -Force
+              Write-Host "Found Portable ZIP"
+          }
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        with:
+          files: build/release-artifacts/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          name: BoardMyDelulu ${{ github.event.inputs.version || github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -64,7 +64,7 @@ fun SoundsScreen(viewModel: AppViewModel) {
                 ) {
                     IconButton(
                         onClick = {
-                            if (state.volume > 0f) viewModel.setVolume(0f) else viewModel.setVolume(1f)
+                            if (state.volume > 0f) viewModel.setVolume(0f, playFeedback = false) else viewModel.setVolume(1f, playFeedback = true)
                         },
                         modifier = Modifier.size(32.dp)
                     ) {

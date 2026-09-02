@@ -45,6 +45,66 @@ object SoundEngine {
         currentMixerInfo = mixerInfo
     }
 
+    /**
+     * Synthesizes and plays a short pleasant audio chime at the current volume
+     * and output device so the user can immediately gauge their volume level.
+     */
+    fun playVolumeTest() {
+        if (_playingId.value != null && _playingId.value != "volume_test") {
+            // If already playing another sound, it naturally reflects the volume in real-time
+            return
+        }
+        stop()
+        isUserStopped = false
+        _playingId.value = "volume_test"
+        currentJob = scope.launch {
+            var line: SourceDataLine? = null
+            try {
+                val sampleRate = 44100
+                val durationMs = 150
+                val numSamples = (sampleRate * (durationMs / 1000.0)).toInt()
+                val byteBuf = ByteArray(numSamples * 2)
+                val vol = currentVolume
+
+                if (vol > 0f) {
+                    for (i in 0 until numSamples) {
+                        val t = i.toDouble() / sampleRate
+                        // Pleasant chime: 523.25 Hz (C5) transitioning to 659.25 Hz (E5)
+                        val freq = if (i < numSamples / 2) 523.25 else 659.25
+                        val progress = i.toDouble() / numSamples
+                        val envelope = Math.sin(progress * Math.PI) * Math.exp(-progress * 2.2)
+                        val sample = (Math.sin(2.0 * Math.PI * freq * t) * envelope * 32767.0 * vol)
+                            .toInt().coerceIn(-32768, 32767).toShort()
+
+                        byteBuf[i * 2] = (sample.toInt() and 0xFF).toByte()
+                        byteBuf[i * 2 + 1] = ((sample.toInt() shr 8) and 0xFF).toByte()
+                    }
+
+                    val format = AudioFormat(sampleRate.toFloat(), 16, 1, true, false)
+                    val info = DataLine.Info(SourceDataLine::class.java, format)
+                    val mixerInfo = currentMixerInfo
+                    val l = if (mixerInfo != null) {
+                        AudioSystem.getMixer(mixerInfo).getLine(info) as SourceDataLine
+                    } else {
+                        AudioSystem.getLine(info) as SourceDataLine
+                    }
+
+                    l.open(format, 16384)
+                    l.start()
+                    line = l
+                    activeLine = l
+                    l.write(byteBuf, 0, byteBuf.size)
+                    l.drain()
+                }
+            } catch (_: Exception) {
+            } finally {
+                try { line?.stop(); line?.close() } catch (_: Exception) { }
+                if (activeLine == line) activeLine = null
+                if (_playingId.value == "volume_test") _playingId.value = null
+            }
+        }
+    }
+
     fun play(soundId: String, mp3Url: String) {
         if (_playingId.value == soundId) {
             stop()
